@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rock, Paper, Scissors</title>
+  <style>
+    
+  </style>
+</head>
+<body>
+
+<script>
+  let playerScore = 0;
+  let computerScore = 0;
+  let gameWinner;
+
+  function computerPlay() {
+    let computerWeapon = Math.floor(Math.random() * 3);
+    if (computerWeapon === 0) {
+      return "rock";
+    } else if (computerWeapon === 1) {
+      return "paper";
+    } else {
+      return "scissors";
+    }
+  }
+  
+  function game(playerSelection, computerSelection) {
+    if (playerSelection === "rock" && computerSelection === "scissors" || playerSelection === "paper" && computerSelection === "rock" || playerSelection === "scissors" && computerSelection === "paper") {
+      playerScore = playerScore + 1;
+      return "Nice! " + playerSelection + " beats " + computerSelection;
+    } else if (playerSelection === computerSelection) {
+      return "Eh, a tie. Both chose " + playerSelection; 
+    } else {
+      computerScore = computerScore + 1;
+      return "Ouch! " + computerSelection + " beats " + playerSelection;
+    }
+  }
+
+  let playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  let computerSelection = computerPlay();
+  console.log("===== ROUND 1 =====");
+  console.log(game(playerSelection, computerSelection));
+  console.log("Score - You: " + playerScore + " | computer: " + computerScore);
+
+  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  computerSelection = computerPlay();
+  console.log("===== ROUND 2 =====");
+  console.log(game(playerSelection, computerSelection));
+  console.log("Score - You: " + playerScore + " | computer: " + computerScore);
+
+  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  computerSelection = computerPlay();
+  console.log("===== ROUND 3 =====");
+  console.log(game(playerSelection, computerSelection));
+  console.log("Score - You: " + playerScore + " | computer: " + computerScore);
+
+  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  computerSelection = computerPlay();
+  console.log("===== ROUND 4 =====");
+  console.log(game(playerSelection, computerSelection));
+  console.log("Score - You: " + playerScore + " | computer: " + computerScore);
+
+  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  computerSelection = computerPlay();
+  console.log("===== ROUND 5 =====");
+  console.log(game(playerSelection, computerSelection));
+  console.log("Score - You: " + playerScore + " | computer: " + computerScore);
+
+  if (playerScore > computerScore) {
+    gameWinner = "!!!!!YOU!!!!!! (" + playerScore + "-" + computerScore + ")";
+  } else if (playerScore < computerScore) {
+    gameWinner = "!!!COMPUTRON!!! (" + computerScore + "-" + playerScore + ")";
+  } else {
+    gameWinner = "NO ONE, IT'S A TIE... (" + playerScore + "-" + computerScore + ")";
+  }
+  console.log("===== GAME CHAMPION =====");
+  console.log(gameWinner);
+
+</script>
+</body>
+</html>
