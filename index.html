@@ -5,69 +5,97 @@
   <title>Rock, Paper, Scissors</title>
 </head>
 <body>
+  <h1>ROCK PAPER SCISSORS</h1>
+  <h2>Play against COMPUTRON. First to five points wins!</h2>
+  <h3>Choose your weapon:</h3>
+  <button id="rock">Rock</button>
+  <button id="paper">Paper</button>
+  <button id="scissors">Scissors</button>
+  <div id="results">
+    <p>=====SCORE===== <br>
+      You: <span id="playerPoints">0</span>&nbsp;&nbsp;|&nbsp;&nbsp;Computron: <span id="computronPoints">0</span>
+    </p>
+  </div>
 
 <script>
   let playerScore = 0;
-  let computerScore = 0;
-  let gameWinner;
+  let computronScore = 0;
+ 
+  const rockEl = document.getElementById("rock");
+  rockEl.addEventListener("click", playRound);
+  const paperEl = document.getElementById("paper");
+  paperEl.addEventListener("click", playRound);
+  const scissorsEl = document.getElementById("scissors");
+  scissorsEl.addEventListener("click", playRound);
+
+  const results = document.getElementById("results");
+  const para = document.createElement("p");
+  results.appendChild(para);
 
   function computerPlay() {
-    let computerWeapon = Math.floor(Math.random() * 3);
-    if (computerWeapon === 0) {
+    const computronWeapon = Math.floor(Math.random() * 3);
+    if (computronWeapon === 0) {
       return "rock";
-    } else if (computerWeapon === 1) {
+    } else if (computronWeapon === 1) {
       return "paper";
     } else {
       return "scissors";
     }
   }
   
-  function game(playerSelection, computerSelection) {
-    if (playerSelection === "rock" && computerSelection === "scissors" || playerSelection === "paper" && computerSelection === "rock" || playerSelection === "scissors" && computerSelection === "paper") {
-      playerScore = playerScore + 1;
-      return "Nice! " + playerSelection + " beats " + computerSelection;
-    } else if (playerSelection === computerSelection) {
-      return "Eh, a tie. Both chose " + playerSelection; 
+  function playRound(e) {
+    const playerWeapon = e.target.id;
+    const computronWeapon = computerPlay();
+    
+    if (playerWeapon === "rock" && computronWeapon === "scissors" || playerWeapon === "paper" && computronWeapon === "rock" || playerWeapon === "scissors" && computronWeapon === "paper") {
+      document.getElementById("playerPoints").textContent = playerScore += 1;
+      para.textContent = `Nice! ${playerWeapon} beats ${computronWeapon}`;
+    } else if (playerWeapon === computronWeapon) {
+      para.textContent = `Eh, a tie. Both chose ${playerWeapon}`; 
     } else {
-      computerScore = computerScore + 1;
-      return "Ouch! " + computerSelection + " beats " + playerSelection;
+      document.getElementById("computronPoints").textContent = computronScore += 1;
+      para.textContent = `Ouch! ${computronWeapon} beats ${playerWeapon}`;
+    }
+    if (playerScore === 5 || computronScore === 5) {
+      announceWinner();
+      disableWeapons();
     }
   }
 
-  let playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
-  let computerSelection = computerPlay();
-  console.log("===== ROUND 1 =====");
-  console.log(game(playerSelection, computerSelection));
-
-  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
-  computerSelection = computerPlay();
-  console.log("===== ROUND 2 =====");
-  console.log(game(playerSelection, computerSelection));
-
-  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
-  computerSelection = computerPlay();
-  console.log("===== ROUND 3 =====");
-  console.log(game(playerSelection, computerSelection));
-
-  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
-  computerSelection = computerPlay();
-  console.log("===== ROUND 4 =====");
-  console.log(game(playerSelection, computerSelection));
-
-  playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
-  computerSelection = computerPlay();
-  console.log("===== ROUND 5 =====");
-  console.log(game(playerSelection, computerSelection));
-
-  if (playerScore > computerScore) {
-    gameWinner = "!!!!!YOU!!!!!! (" + playerScore + "-" + computerScore + ")";
-  } else if (playerScore < computerScore) {
-    gameWinner = "!!!COMPUTRON!!! (" + computerScore + "-" + playerScore + ")";
-  } else {
-    gameWinner = "NO ONE, IT'S A TIE... (" + playerScore + "-" + computerScore + ")";
+  function announceWinner() {
+    if (playerScore > computronScore) {
+      para.textContent = "!!!YOU WIN!!!";
+    } else {
+      para.textContent = "!!COMPUTRON WINS!!";
+    }
+    resetButton();
   }
-  console.log("===== GAME CHAMPION =====");
-  console.log(gameWinner);
+
+  function disableWeapons() {
+    rockEl.removeEventListener("click", playRound);
+    paperEl.removeEventListener("click", playRound);
+    scissorsEl.removeEventListener("click", playRound);
+  }
+
+  function resetButton() {
+    const resetButton = document.createElement("button");
+    resetButton.textContent = "PLAY AGAIN";
+    resetButton.style.display = "block";
+    resetButton.setAttribute("id", "resetButton");
+    para.appendChild(resetButton);
+    resetButton.addEventListener("click", newGame);
+  }
+
+  function newGame() {
+    para.textContent = "";
+    playerScore = 0;
+    computronScore = 0;
+    document.getElementById("playerPoints").textContent = 0;
+    document.getElementById("computronPoints").textContent = 0;
+    rockEl.addEventListener("click", playRound);
+    paperEl.addEventListener("click", playRound);
+    scissorsEl.addEventListener("click", playRound);
+  }
 </script>
 </body>
 </html>
